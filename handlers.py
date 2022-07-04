@@ -1,4 +1,4 @@
-from main import bot, dp
+from create_bot import bot, dp
 from aiogram.types import Message
 from config import admin_id
 

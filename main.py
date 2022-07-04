@@ -1,20 +1,18 @@
-import asyncio
-from aiogram import Bot, Dispatcher, executor
-    # Bot -  класс бота
-    # Dispatcher - доставщик update'ов (youtube: Physics is Simple - Разработка телеграм бота на Python(плейлист))
-    # executor - запуск бота
-from config import BOT_TOKEN
+from aiogram.utils import executor
+from create_bot import dp
+from database import mongo_db
 
 
-loop = asyncio.new_event_loop()
-bot = Bot(BOT_TOKEN, parse_mode="HTML")
-dp = Dispatcher(bot, loop=loop)
+async def on_starup(_):
+    print('Бот вышел в онлайн')
+    mongo_db.sql_start()
 
 
-def main():
-    from handlers import dp, send_to_admin
-    executor.start_polling(dp, on_startup=send_to_admin)
+from handlers import client, admin, other
 
+client.register_handlers_client(dp)
+admin.register_handlers_admin(dp)
+other.register_handlers_other(dp)
 
 if __name__ == '__main__':
-    main()
+    executor.start_polling(dp, skip_updates=True, on_startup=on_starup)
