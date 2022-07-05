@@ -8,5 +8,5 @@ import os
 storage = MemoryStorage()
 
 # bot = Bot(token=os.getenv('TOKEN'))
-bot = Bot(token='5525955265:AAFgKtqEKaiBSwP9YmvyTw9hFfbOoeNaprg')
+bot = Bot(token='TOKEN')
 dp = Dispatcher(bot, storage=storage)
