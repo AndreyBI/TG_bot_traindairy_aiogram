@@ -4,7 +4,7 @@ from database import mongo_db
 
 
 async def on_starup(_):
-    print('Бот вышел в онлайн')
+    print('Bot online')
     mongo_db.sql_start()
 
 
