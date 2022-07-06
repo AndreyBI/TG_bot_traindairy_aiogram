@@ -1,5 +1,7 @@
 from aiogram import types, Dispatcher
-from config import admin_id
+
+
+admin_id = 987843940
 
 
 async def make_changes_command(message: types.Message):

@@ -2,8 +2,6 @@ from pymongo import MongoClient
 
 ########################################################################################################################
 '''************************************* Работа с базой данных (MongoDB) ********************************************'''
-
-
 ########################################################################################################################
 
 
@@ -11,7 +9,7 @@ from pymongo import MongoClient
 def sql_start():
     global db
     try:
-        client = MongoClient(port='PORT')
+        client = MongoClient(port=PORT)
         db = client["TG_bot_traindairy"]
         print('Data base connected successfully')
     except:
@@ -23,8 +21,7 @@ async def sql_add_users(message):
     user_col = db['users']
     user_id = message.from_user.id
     exist = True
-    if str(user_id) in db.list_collection_names():
-        user_col.find()
+    if user_col.find_one({"user_id": user_id}) != None:
         print('Old user:', message.from_user.id, ' - ', message.from_user.first_name, ' ', message.from_user.last_name, ' (', message.from_user.username, ')')
     else:
         user_info = {'user_id': user_id, 'first_name': message.from_user.first_name,
@@ -37,9 +34,10 @@ async def sql_add_users(message):
 
 
 # Добавление данных о тренировке
-async def sql_add(state, user_id):
+async def sql_add_training(state, user_id):
+    quit = True
     try:
-        head_col = ['date', 'type', 'description', 'dist', 'av_speed', 'time', 'photo']
+        head_col = ['date', 'type', 'description', 'dist', 'time', 'av_speed', 'photo']
         data_insert = {}
         async with state.proxy() as data:
             begin = str(data.values()).find("'") + 1
@@ -50,6 +48,19 @@ async def sql_add(state, user_id):
                 data_insert[head_col[i]] = new_data[i]
         col = db[user_id]
         col.insert_one(data_insert)
-        return True
     except:
-        return False
+        quit = False
+    return quit
+
+
+# Поиск истории тренировок
+async def sql_search_training(message):
+    try:
+        user_col = db[str(message.from_user.id)]
+        data = []
+        for item in user_col.find({}).sort("date", -1):
+            data.append(item)
+        return data
+    except:
+        return 'None'
+

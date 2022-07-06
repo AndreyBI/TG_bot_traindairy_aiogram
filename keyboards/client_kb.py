@@ -26,6 +26,16 @@ kb_client_main.add(btn_main_1, btn_main_2, btn_main_3, btn_main_4)
 
 
 btn_repeat_add_train_1 = KeyboardButton('Повторить')
-btn_repeat_add_train_2 = KeyboardButton('Вернуться в меню')
+btn_back_main_menu = KeyboardButton('Вернуться в меню')
 kb_client_repeat_add_training = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=True)
-kb_client_repeat_add_training.add(btn_repeat_add_train_1, btn_repeat_add_train_2)
+kb_client_repeat_add_training.add(btn_repeat_add_train_1, btn_back_main_menu)
+
+
+########################################################################################################################
+'''*********************************** Button if we haven't history of training *************************************'''
+########################################################################################################################
+
+
+kb_client_ifNone_add_train = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=True)
+kb_client_ifNone_add_train.add(btn_main_1, btn_back_main_menu)
+
